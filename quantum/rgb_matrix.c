@@ -205,10 +205,12 @@ bool process_rgb_matrix(uint16_t keycode, keyrecord_t *record) {
     }
 
     if (last_hit_buffer.count + led_count > LED_HITS_TO_REMEMBER) {
-        memcpy(&last_hit_buffer.x[0], &last_hit_buffer.x[led_count], LED_HITS_TO_REMEMBER - led_count);
-        memcpy(&last_hit_buffer.y[0], &last_hit_buffer.y[led_count], LED_HITS_TO_REMEMBER - led_count);
-        memcpy(&last_hit_buffer.tick[0], &last_hit_buffer.tick[led_count], (LED_HITS_TO_REMEMBER - led_count) * 2);  // 16 bit
-        memcpy(&last_hit_buffer.index[0], &last_hit_buffer.index[led_count], LED_HITS_TO_REMEMBER - led_count);
+        uint8_t len = LED_HITS_TO_REMEMBER - led_count;
+        memcpy(&last_hit_buffer.x[0], &last_hit_buffer.x[led_count], len);
+        memcpy(&last_hit_buffer.y[0], &last_hit_buffer.y[led_count], len);
+        memcpy(&last_hit_buffer.tick[0], &last_hit_buffer.tick[led_count], len * 2);  // 16 bit
+        memcpy(&last_hit_buffer.index[0], &last_hit_buffer.index[led_count], len);
+        memcpy(&last_hit_buffer.key[0], &last_hit_buffer.key[led_count], len * 2);  // 16 bit
         last_hit_buffer.count--;
     }
 
@@ -218,6 +220,7 @@ bool process_rgb_matrix(uint16_t keycode, keyrecord_t *record) {
         last_hit_buffer.y[index]     = g_led_config.point[led[i]].y;
         last_hit_buffer.index[index] = led[i];
         last_hit_buffer.tick[index]  = 0;
+        last_hit_buffer.key[index]   = keycode;
         last_hit_buffer.count++;
     }
 #endif  // RGB_MATRIX_KEYREACTIVE_ENABLED

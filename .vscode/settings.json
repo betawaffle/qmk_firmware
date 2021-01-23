@@ -6,7 +6,8 @@
     "files.exclude": {
         "**/.build": true,
         "**/*.hex": true,
-        "**/*.bin": true
+        "**/*.bin": true,
+        "**/keyboards/{[^m],m[^a],ma[^s]}*": true
     },
     "files.associations": {
         "*.h": "c",
@@ -22,5 +23,6 @@
     "[markdown]": {
         "editor.trimAutoWhitespace": false,
         "files.trimTrailingWhitespace": false
-    }
+    },
+    "C_Cpp.dimInactiveRegions": false
 }
